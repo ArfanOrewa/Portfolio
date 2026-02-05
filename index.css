@@ -92,7 +92,7 @@ body {
   }
 }
 
-/* Header & Navigation */
+
 header {
   position: fixed;
   top: 0;
@@ -202,7 +202,7 @@ header.hidden {
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Hero Section */
+
 .hero {
   min-height: 100vh;
   padding: 10rem 2rem 5rem;
@@ -459,7 +459,7 @@ section {
   }
 }
 
-/* About Section */
+
 .about-content {
   background-color: var(--card-bg);
   border-radius: 20px;
@@ -509,7 +509,7 @@ section {
   position: relative;
 }
 
-/* Skills Section */
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -705,7 +705,6 @@ section {
   box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
 }
 
-/* Contact Section */
 .contact-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -929,7 +928,6 @@ footer {
   animation: fadeInUp 1s 1s both;
 }
 
-/* Scroll Progress */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -1045,7 +1043,6 @@ footer {
   }
 }
 
-/* Animation Classes */
 .fade-in-up {
   opacity: 0;
   animation: fadeInUp 1s forwards;
