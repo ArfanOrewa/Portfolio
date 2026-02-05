@@ -1,11 +1,11 @@
-  // Initialize AOS
+
   AOS.init({
     duration: 1000,
     once: true,
     offset: 100
   });
 
-  // Hamburger menu toggle
+
   const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
 
@@ -14,7 +14,7 @@
     navLinks.classList.toggle('active');
   });
 
-  // Close mobile menu when clicking a link
+  
   document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
@@ -22,7 +22,7 @@
     });
   });
 
-  // Typewriter effect
+
   const typewriterText = document.getElementById('typewriter');
   const texts = [
     "Passionate software developer with strong foundations in Java, Web Development, SQL, and Data Structures & Algorithms.",
@@ -108,7 +108,6 @@
     lastScroll = currentScroll;
   });
 
-  // Create particles for hero section
   function createParticles() {
     const container = document.getElementById('particles');
     const particleCount = 50;
@@ -123,7 +122,7 @@
       particle.style.left = Math.random() * 100 + '%';
       particle.style.top = Math.random() * 100 + '%';
       
-      // Animation
+
       const duration = Math.random() * 10 + 10;
       particle.style.animation = `float ${duration}s infinite linear`;
       
@@ -133,7 +132,7 @@
 
   createParticles();
 
-  // Add hover effect to project cards
+
   document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -154,7 +153,6 @@
     });
   });
 
-  // Parallax effect for background circles
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     const circles = document.querySelectorAll('.bg-circle');
