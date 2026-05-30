@@ -1,161 +1,164 @@
-(function() {
-  // ========== 3D ORBS + DYNAMIC BACKGROUND ==========
-  const canvas = document.getElementById('orbCanvas');
-  const ctx = canvas.getContext('2d');
-  let width = window.innerWidth, height = window.innerHeight;
-  let particles = [];
-  const PARTICLE_COUNT = 45;
-  
-  function resizeCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  
-  class Orb {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.radius = Math.random() * 60 + 20;
-      this.speedX = (Math.random() - 0.5) * 0.3;
-      this.speedY = (Math.random() - 0.5) * 0.2;
-      this.hue = Math.random() * 60 + 180;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if(this.x < -100) this.x = width + 50;
-      if(this.x > width + 100) this.x = -50;
-      if(this.y < -100) this.y = height + 50;
-      if(this.y > height + 100) this.y = -50;
-    }
-    draw() {
-      const grad = ctx.createRadialGradient(this.x, this.y, 5, this.x, this.y, this.radius);
-      grad.addColorStop(0, `hsla(${this.hue}, 80%, 60%, 0.2)`);
-      grad.addColorStop(1, `hsla(${this.hue+20}, 70%, 40%, 0)`);
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-      ctx.fillStyle = grad;
-      ctx.fill();
-    }
-  }
-  
-  function initOrbs() {
-    particles = [];
-    for(let i=0;i<PARTICLE_COUNT;i++) particles.push(new Orb());
-  }
-  
-  function animateOrbs() {
-    if(!ctx) return;
-    ctx.clearRect(0,0,width,height);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animateOrbs);
-  }
-  
-  window.addEventListener('resize', () => {
-    resizeCanvas();
-    initOrbs();
+AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
   });
-  resizeCanvas();
-  initOrbs();
-  animateOrbs();
+
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+
   
-  // ========== TYPEWRITER ==========
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+
+
+  const typewriterText = document.getElementById('typewriter');
   const texts = [
-    "Full-Stack Developer | ML Enthusiast",
-    "Java • Python • React • Problem Solver",
-    "Building next-gen digital experiences"
+    "Passionate software developer with strong foundations in Java, Web Development, SQL, and Data Structures & Algorithms.",
+    "Eager to apply academic knowledge and project experience to build scalable real-world applications.",
+    "Specializing in Full Stack Development and Machine Learning solutions."
   ];
-  let idx = 0, charIdx = 0, isDeleting = false;
-  const typedEl = document.getElementById('typedText');
-  function typeEffect() {
-    const current = texts[idx];
-    if(isDeleting) {
-      typedEl.textContent = current.substring(0, charIdx-1);
-      charIdx--;
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let isEnd = false;
+
+  function typeWriter() {
+    const currentText = texts[textIndex];
+    
+    if (isDeleting) {
+      typewriterText.textContent = currentText.substring(0, charIndex - 1);
+      charIndex--;
     } else {
-      typedEl.textContent = current.substring(0, charIdx+1);
-      charIdx++;
+      typewriterText.textContent = currentText.substring(0, charIndex + 1);
+      charIndex++;
     }
-    if(!isDeleting && charIdx === current.length) {
+
+    if (!isDeleting && charIndex === currentText.length) {
+      isEnd = true;
       isDeleting = true;
-      setTimeout(typeEffect, 1800);
-      return;
-    }
-    if(isDeleting && charIdx === 0) {
+      setTimeout(typeWriter, 1500);
+    } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
-      idx = (idx+1) % texts.length;
-      setTimeout(typeEffect, 300);
-      return;
+      textIndex = (textIndex + 1) % texts.length;
+      setTimeout(typeWriter, 500);
+    } else {
+      const speed = isDeleting ? 50 : 100;
+      setTimeout(typeWriter, speed);
     }
-    setTimeout(typeEffect, isDeleting ? 40 : 80);
   }
-  setTimeout(typeEffect, 500);
-  
-  // ========== SKILL BAR ANIMATION (Intersection Observer) ==========
-  const skillFills = document.querySelectorAll('.skill-fill');
-  const observerSkills = new IntersectionObserver((entries) => {
+
+  // Start typewriter after page loads
+  setTimeout(typeWriter, 1000);
+
+  // Scroll progress indicator
+  const scrollProgress = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (window.scrollY / windowHeight) * 100;
+    scrollProgress.style.transform = `scaleX(${scrolled / 100})`;
+  });
+
+  // Animate skill bars on scroll
+  const skillBars = document.querySelectorAll('.skill-progress');
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if(entry.isIntersecting) {
-        const fillEl = entry.target;
-        const percent = fillEl.getAttribute('data-skill');
-        if(percent) fillEl.style.width = percent + '%';
-        observerSkills.unobserve(fillEl);
+      if (entry.isIntersecting) {
+        const skillBar = entry.target;
+        const width = skillBar.getAttribute('data-width');
+        skillBar.style.width = width + '%';
+        observer.unobserve(skillBar);
       }
     });
   }, { threshold: 0.5 });
-  skillFills.forEach(fill => observerSkills.observe(fill));
+
+  skillBars.forEach(bar => observer.observe(bar));
+
+  // Header hide/show on scroll
+  let lastScroll = 0;
+  const header = document.getElementById('header');
   
-  // ========== SCROLL PROGRESS & HEADER HIDE/SHOW ==========
-  const progress = document.getElementById('progressBar');
   window.addEventListener('scroll', () => {
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    progress.style.width = scrolled + '%';
+    const currentScroll = window.pageYOffset;
     
-    const header = document.getElementById('mainHeader');
-    if(winScroll > 100) header.classList.add('scrolled');
-    else header.classList.remove('scrolled');
+    if (currentScroll <= 0) {
+      header.classList.remove('hidden');
+      return;
+    }
+    
+    if (currentScroll > lastScroll && !header.classList.contains('hidden')) {
+      // Scrolling down
+      header.classList.add('hidden');
+    } else if (currentScroll < lastScroll && header.classList.contains('hidden')) {
+      // Scrolling up
+      header.classList.remove('hidden');
+    }
+    
+    lastScroll = currentScroll;
   });
-  
-  // ========== MOBILE MENU ==========
-  const menuBtn = document.getElementById('menuToggle');
-  const navMenu = document.getElementById('navMenu');
-  menuBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-  });
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => navMenu.classList.remove('active'));
-  });
-  
-  // ========== SMOOTH SCROLL ==========
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-  
-  // ========== PROJECT & CARD TILT EFFECT ==========
-  const cards = document.querySelectorAll('.project-card, .glass-card');
-  cards.forEach(card => {
+
+  function createParticles() {
+    const container = document.getElementById('particles');
+    const particleCount = 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = Math.random() * 4 + 1 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.background = 'rgba(37, 99, 235, 0.5)';
+      particle.style.borderRadius = '50%';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      
+
+      const duration = Math.random() * 10 + 10;
+      particle.style.animation = `float ${duration}s infinite linear`;
+      
+      container.appendChild(particle);
+    }
+  }
+
+  createParticles();
+
+
+  document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const centerX = rect.width/2;
-      const centerY = rect.height/2;
-      const rotateX = (y - centerY)/20;
-      const rotateY = (centerX - x)/20;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateY = (x - centerX) / 25;
+      const rotateX = (centerY - y) / 25;
+      
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px) scale(1.02)`;
     });
+    
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
     });
   });
-  
-  console.log("✨ Immersive Portfolio Loaded — Innovation meets Aesthetic");
-})();
+
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const circles = document.querySelectorAll('.bg-circle');
+    
+    circles.forEach((circle, index) => {
+      const speed = 0.5 + (index * 0.1);
+      const yPos = -(scrolled * speed);
+      circle.style.transform = `translateY(${yPos}px)`;
+    });
+  });
