@@ -1,326 +1,744 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arfan Ahmed Khan — Software Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Arfan Ahmed Khan | 3D Aesthetic Portfolio</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    /* ========== CSS RESET & VARIABLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #05070f;
+      --bg-surface: rgba(18, 25, 45, 0.65);
+      --card-glass: rgba(20, 30, 55, 0.55);
+      --primary-glow: #3b82f6;
+      --neon-cyan: #00f0ff;
+      --neon-purple: #b77aff;
+      --neon-pink: #ff5e7e;
+      --text-main: #f0f3ff;
+      --text-muted: #9ca3cf;
+      --border-glow: rgba(59, 130, 246, 0.4);
+      --grad-1: linear-gradient(135deg, #3b82f6, #a855f7, #06b6d4);
+      --grad-2: linear-gradient(120deg, #00c6ff, #0072ff);
+      --shadow-neon: 0 10px 30px -5px rgba(0, 180, 255, 0.2);
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at 10% 30%, #0a0f1f, #02040c);
+      color: var(--text-main);
+      line-height: 1.5;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* animated noise overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-radial-gradient(circle at 20% 30%, rgba(0,255,255,0.02) 0px, rgba(0,0,0,0.1) 2px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--neon-cyan);
+      border-radius: 10px;
+    }
+
+    /* floating orbs */
+    .orb-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* progress line */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--grad-1);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      z-index: 10000;
+      transition: width 0.1s ease;
+    }
+
+    /* header */
+    .glass-header {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      max-width: 1300px;
+      background: rgba(10, 20, 35, 0.7);
+      backdrop-filter: blur(15px);
+      border-radius: 60px;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: all 0.4s;
+    }
+    .glass-header.scrolled {
+      top: 10px;
+      width: 90%;
+      background: rgba(5, 10, 20, 0.85);
+      border-color: var(--neon-cyan);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(130deg, #fff, var(--neon-cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: 0.3s;
+      position: relative;
+    }
+    .nav-links a:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px cyan;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--neon-cyan);
+      transition: 0.3s;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .menu-btn {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: white;
+    }
+
+    /* hero section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      position: relative;
+    }
+    .avatar-wrap {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+      padding: 4px;
+      margin-bottom: 2rem;
+      animation: pulseGlow 3s infinite;
+    }
+    .avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #0a0f1f;
+      border: 2px solid rgba(0,0,0,0.3);
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.3);}
+      70% { box-shadow: 0 0 0 15px rgba(0, 240, 255, 0);}
+      100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0);}
+    }
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff, var(--neon-cyan), #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .hero-sub {
+      font-size: 1.8rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    .type-wrapper {
+      height: 80px;
+      margin: 1rem 0;
+    }
+    .typed-text {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      border-right: 2px solid cyan;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: blinkCursor 0.8s infinite;
+    }
+    @keyframes blinkCursor {
+      0%,100%{border-color: cyan;}
+      50%{border-color: transparent;}
+    }
+    .btn-glow {
+      margin-top: 1rem;
+      padding: 1rem 2.5rem;
+      background: rgba(0, 200, 255, 0.1);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 50px;
+      color: white;
+      font-weight: bold;
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
+      display: inline-block;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .btn-glow:hover {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 20px cyan;
+      color: #000;
+      transform: scale(1.03);
+    }
+    .stats-flex {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stat-card {
+      background: rgba(15,25,45,0.5);
+      backdrop-filter: blur(8px);
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      border: 1px solid rgba(0,255,255,0.2);
+      transition: 0.3s;
+    }
+    .stat-card span:first-child {
+      font-size: 2rem;
+      font-weight: bold;
+      color: cyan;
+    }
+    /* sections */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(120deg, #fff, #a5f3ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .glass-card {
+      background: var(--card-glass);
+      backdrop-filter: blur(12px);
+      border-radius: 32px;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      padding: 2rem;
+      transition: all 0.4s;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .skill-item {
+      margin: 1rem 0;
+    }
+    .skill-bar-bg {
+      background: #1e293b;
+      border-radius: 20px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, cyan, #a855f7);
+      border-radius: 20px;
+      transition: width 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: rgba(10,20,35,0.7);
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(0,255,255,0.2);
+      transition: 0.4s;
+    }
+    .project-card:hover {
+      transform: translateY(-12px) scale(1.01);
+      border-color: cyan;
+      box-shadow: 0 20px 30px -10px rgba(0,255,255,0.2);
+    }
+    .project-img {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+      transition: 0.5s;
+    }
+    .project-card:hover .project-img {
+      transform: scale(1.02);
+    }
+    .project-info {
+      padding: 1.5rem;
+    }
+    .tech-tag {
+      background: rgba(0, 255, 255, 0.15);
+      border-radius: 30px;
+      padding: 0.3rem 1rem;
+      font-size: 0.7rem;
+      margin-right: 0.5rem;
+      display: inline-block;
+    }
+    .contact-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .icon-circle {
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(145deg, #0f172a, #020617);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: cyan;
+    }
+    .social-links a {
+      display: inline-flex;
+      background: rgba(0,200,255,0.1);
+      margin: 0.5rem;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.4rem;
+      transition: 0.3s;
+    }
+    .social-links a:hover {
+      background: cyan;
+      color: black;
+      transform: translateY(-5px);
+    }
+    footer {
+      text-align: center;
+      padding: 3rem;
+      border-top: 1px solid rgba(0,255,255,0.2);
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 800px) {
+      .menu-btn { display: block; }
+      .nav-links {
+        position: fixed;
+        top: 80px;
+        right: -100%;
+        flex-direction: column;
+        background: #0b1120dd;
+        backdrop-filter: blur(25px);
+        width: 60%;
+        padding: 2rem;
+        border-radius: 30px;
+        transition: 0.4s;
+        border: 1px solid cyan;
+      }
+      .nav-links.active {
+        right: 20px;
+      }
+      .hero h1 { font-size: 2.5rem; }
+      .contact-duo { grid-template-columns: 1fr; }
+      .stats-flex { gap: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div id="c1"></div>
-<div id="c2"></div>
-<div id="prog"></div>
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="orbCanvas" class="orb-canvas"></canvas>
 
-<nav id="nav">
-  <a href="#hero" class="n-logo">arfan<span>.dev</span></a>
-  <ul class="n-links" id="nLinks">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact" class="n-hire">Hire Me</a></li>
+<header class="glass-header" id="mainHeader">
+  <div class="logo">✨ ARFAN.X</div>
+  <div class="menu-btn" id="menuToggle"><i class="fas fa-bars"></i></div>
+  <ul class="nav-links" id="navMenu">
+    <li><a href="#about">⎯ About</a></li>
+    <li><a href="#skills">⎯ Skills</a></li>
+    <li><a href="#projects">⎯ Work</a></li>
+    <li><a href="#education">⎯ Education</a></li>
+    <li><a href="#contact">⎯ Connect</a></li>
   </ul>
-  <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
-</nav>
+</header>
 
-<section id="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-l">
-    <div class="h-status"><span class="h-status-dot"></span>Available · Bengaluru, IN · 2025</div>
-    <h1 class="h-name">
-      <div>ARFAN</div>
-      <div class="stroke">AHMED</div>
-      <div class="lime">KHAN</div>
-    </h1>
-    <div class="h-role">
-      <div class="h-role-line"></div>
-      <span class="h-role-txt">CSE Graduate &amp; Full-Stack Developer</span>
-    </div>
-    <p class="h-desc">
-      Building <strong>scalable systems end-to-end</strong> — from intelligent ML backends to clean web frontends. Fresh out of VTU, ready to ship.
-    </p>
-    <div class="h-btns">
-      <a href="#contact" class="btn-a">Get in touch ↗</a>
-      <a href="#projects" class="btn-b">View work →</a>
-    </div>
-    <div class="h-stats">
-      <div class="hstat"><div class="n">2025</div><div class="l">Graduated</div></div>
-      <div class="hstat"><div class="n">7.59</div><div class="l">CGPA</div></div>
-      <div class="hstat"><div class="n">5+</div><div class="l">Projects</div></div>
-      <div class="hstat"><div class="n">2</div><div class="l">Certs</div></div>
-    </div>
+<!-- HERO SECTION -->
+<section class="hero" id="home">
+  <div class="avatar-wrap">
+    <img class="avatar" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxDlm13uVFgvHO_DrJ52cgwxyYqSMgDZjc23wo23nkbQFN86G8bK0tHLsdPKyNhhYpscPc3Nime6ads6yTC632wufdGZknNuZZcitIwdnkunRcHsgKqj2q6kmA94UJ5uBllWp4p0m0bsLkMyA1irFXd0-rH-j7t4xerXmM4gNdxhu3JlwsCQn4UW2K2j4/s0/wallpaper-for-pc-2025031817240618.jpg" alt="Arfan">
   </div>
-  <div class="hero-r">
-    <!-- Replace src with actual photo path -->
-    <img src="photo.jpg" alt="Arfan Ahmed Khan" class="hero-photo">
-    <div class="hero-r-grad"></div>
-    <div class="hero-r-accent"></div>
-    <div class="hero-r-tag">
-      CSE · VTU · 2025<br>
-      Tumakuru → Bengaluru<br>
-      Open to Relocate
-    </div>
+  <h1>Computer Science Engineer</h1>
+  <div class="hero-sub">Arfan Ahmed Khan</div>
+  <div class="type-wrapper">
+    <div class="typed-text" id="typedText"></div>
+  </div>
+  <a href="#contact" class="btn-glow"><i class="fas fa-paper-plane"></i>  Let's Connect</a>
+  
+  <div class="stats-flex">
+    <div class="stat-card"><span>2025</span><br>Grad Year</div>
+    <div class="stat-card"><span>7.59</span><br>CGPA</div>
+    <div class="stat-card"><span>5+</span><br>Projects</div>
+    <div class="stat-card"><span>FullStack</span><br>Specialist</div>
   </div>
 </section>
 
-<div class="mq-wrap">
-  <div class="mq-track">
-    <span>Java Full Stack</span><span class="dot">✦</span>
-    <span>Python</span><span class="dot">✦</span>
-    <span>Machine Learning</span><span class="dot">✦</span>
-    <span>Web Dev</span><span class="dot">✦</span>
-    <span>MySQL &amp; JDBC</span><span class="dot">✦</span>
-    <span>Scikit-Learn</span><span class="dot">✦</span>
-    <span>Streamlit</span><span class="dot">✦</span>
-    <span>Data Structures</span><span class="dot">✦</span>
-    <span>Cyber Security</span><span class="dot">✦</span>
-    <span>OOP</span><span class="dot">✦</span>
-    <span>Java Full Stack</span><span class="dot">✦</span>
-    <span>Python</span><span class="dot">✦</span>
-    <span>Machine Learning</span><span class="dot">✦</span>
-    <span>Web Dev</span><span class="dot">✦</span>
-    <span>MySQL &amp; JDBC</span><span class="dot">✦</span>
-    <span>Scikit-Learn</span><span class="dot">✦</span>
-    <span>Streamlit</span><span class="dot">✦</span>
-    <span>Data Structures</span><span class="dot">✦</span>
-    <span>Cyber Security</span><span class="dot">✦</span>
-    <span>OOP</span><span class="dot">✦</span>
-  </div>
-</div>
-
+<!-- ABOUT -->
 <section id="about">
-  <div class="sec">
-    <div class="s-eyebrow au"><span class="s-num">01</span><div class="s-eye-line"></div></div>
-    <h2 class="s-title au d1">WHO I <span class="out">AM</span></h2>
-    <div class="ab-grid">
-      <div class="ab-photo-wrap au-l">
-        <div class="ab-photo-border"></div>
-        <div class="ab-photo-frame">
-          <!-- Replace src with actual photo path -->
-          <img src="photo-about.jpg" alt="Arfan Ahmed Khan" class="ab-photo">
-        </div>
-        <div class="ab-chips">
-          <span class="chip">Open to Work</span>
-          <span class="chip">Bengaluru</span>
-          <span class="chip">Full-Time</span>
-        </div>
-      </div>
-      <div class="ab-right au-r">
-        <p class="ab-lead">
-          I build things that <em>work</em> — from data pipelines to polished UIs, with a passion for clean code and thoughtful design.
-        </p>
-        <p class="ab-body">
-          A Computer Science &amp; Engineering graduate from <strong>VTU, Tumakuru</strong>, I've spent four years sharpening skills across the full stack — Java backends, Python ML models, and responsive web interfaces.
-        </p>
-        <p class="ab-body">
-          I believe the best software is invisible: it solves problems so naturally that users never think about it. That conviction drives every line of code I write.
-        </p>
-        <div class="ab-info">
-          <div class="ai"><div class="ai-l">Degree</div><div class="ai-v">B.E. Computer Science</div></div>
-          <div class="ai"><div class="ai-l">University</div><div class="ai-v">VTU, Tumakuru</div></div>
-          <div class="ai"><div class="ai-l">CGPA</div><div class="ai-v on">7.59 / 10</div></div>
-          <div class="ai"><div class="ai-l">Status</div><div class="ai-v on">Available · 2025</div></div>
-        </div>
-      </div>
-    </div>
+  <h2 class="section-title">✦ About the Vision ✦</h2>
+  <div class="glass-card" style="max-width: 1000px; margin: auto;">
+    <p style="font-size: 1.2rem; line-height: 1.6;">I'm a <span style="color:cyan; font-weight:600;">Computer Science Engineering graduate</span> from Sri Siddhartha Institute of Technology (VTU) with 75.86% aggregate. My journey blends <span style="color:#b77aff">full-stack development</span> and <span style="color:#ff5e7e">ML-driven innovation</span>. Trained at JSpiders Bengaluru, I've built scalable full-stack apps and a Traffic Prediction system. Passionate about creating futuristic solutions that merge efficiency with immersive design.</p>
+    <p style="margin-top: 1rem;">I’m actively seeking <strong>software development roles</strong> where I can bring creative problem-solving and modern engineering practices. Let's build the future — pixel by pixel, line by line.</p>
   </div>
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
-  <div class="sec">
-    <div class="s-eyebrow au"><span class="s-num">02</span><div class="s-eye-line"></div></div>
-    <h2 class="s-title au d1">WHAT I <span class="out">KNOW</span></h2>
-    <div class="sk-grid">
-      <div class="sk-cats au-l">
-        <div class="sk-cat">
-          <div class="sk-cat-lbl">Languages</div>
-          <div class="sk-row"><span class="sk-nm">Java</span><span class="sk-pc">Advanced</span></div>
-          <div class="sk-row"><span class="sk-nm">Python</span><span class="sk-pc">Advanced</span></div>
-          <div class="sk-row"><span class="sk-nm">HTML / CSS</span><span class="sk-pc">Proficient</span></div>
-          <div class="sk-row"><span class="sk-nm">JavaScript</span><span class="sk-pc">Intermediate</span></div>
-          <div class="sk-row"><span class="sk-nm">SQL</span><span class="sk-pc">Proficient</span></div>
-        </div>
-        <div class="sk-cat">
-          <div class="sk-cat-lbl">Tools &amp; Tech</div>
-          <div class="sk-row"><span class="sk-nm">MySQL / JDBC</span><span class="sk-pc">Proficient</span></div>
-          <div class="sk-row"><span class="sk-nm">Scikit-Learn</span><span class="sk-pc">Proficient</span></div>
-          <div class="sk-row"><span class="sk-nm">Streamlit</span><span class="sk-pc">Proficient</span></div>
-          <div class="sk-row"><span class="sk-nm">Git &amp; GitHub</span><span class="sk-pc">Proficient</span></div>
-          <div class="sk-row"><span class="sk-nm">VS Code / IntelliJ</span><span class="sk-pc">Daily Driver</span></div>
-        </div>
-      </div>
-      <div class="sk-bars au-r d1">
-        <div class="skb">
-          <div class="skb-h"><span class="skb-name">Java Full Stack</span><span class="skb-pct">85%</span></div>
-          <div class="skb-track"><div class="skb-fill" data-w="85%"></div></div>
-        </div>
-        <div class="skb">
-          <div class="skb-h"><span class="skb-name">Python &amp; ML</span><span class="skb-pct">82%</span></div>
-          <div class="skb-track"><div class="skb-fill" data-w="82%"></div></div>
-        </div>
-        <div class="skb">
-          <div class="skb-h"><span class="skb-name">Web Development</span><span class="skb-pct">78%</span></div>
-          <div class="skb-track"><div class="skb-fill" data-w="78%"></div></div>
-        </div>
-        <div class="skb">
-          <div class="skb-h"><span class="skb-name">Database &amp; JDBC</span><span class="skb-pct">80%</span></div>
-          <div class="skb-track"><div class="skb-fill" data-w="80%"></div></div>
-        </div>
-        <div class="skb">
-          <div class="skb-h"><span class="skb-name">Data Structures &amp; OOP</span><span class="skb-pct">88%</span></div>
-          <div class="skb-track"><div class="skb-fill" data-w="88%"></div></div>
-        </div>
-        <div class="skb">
-          <div class="skb-h"><span class="skb-name">Cyber Security Basics</span><span class="skb-pct">65%</span></div>
-          <div class="skb-track"><div class="skb-fill" data-w="65%"></div></div>
-        </div>
-      </div>
+  <h2 class="section-title">⚡ Code Alchemy ⚡</h2>
+  <div class="skills-grid">
+    <div class="glass-card">
+      <i class="fab fa-java" style="font-size: 2.5rem; color:cyan;"></i>
+      <h3 style="margin: 1rem 0;">Java Universe</h3>
+      <div class="skill-item"><span>Core & OOP</span><div class="skill-bar-bg"><div class="skill-fill" data-skill="90"></div></div></div>
+      <div class="skill-item"><span>Spring / JDBC</span><div class="skill-bar-bg"><div class="skill-fill" data-skill="80"></div></div></div>
+    </div>
+    <div class="glass-card">
+      <i class="fab fa-python" style="font-size: 2.5rem; color:cyan;"></i>
+      <h3 style="margin: 1rem 0;">Python & AI</h3>
+      <div class="skill-item"><span>Data Analysis</span><div class="skill-bar-bg"><div class="skill-fill" data-skill="85"></div></div></div>
+      <div class="skill-item"><span>Scikit-learn</span><div class="skill-bar-bg"><div class="skill-fill" data-skill="75"></div></div></div>
+    </div>
+    <div class="glass-card">
+      <i class="fas fa-globe" style="font-size: 2.5rem; color:cyan;"></i>
+      <h3 style="margin: 1rem 0;">Web Forge</h3>
+      <div class="skill-item"><span>HTML/CSS/JS</span><div class="skill-bar-bg"><div class="skill-fill" data-skill="88"></div></div></div>
+      <div class="skill-item"><span>React / Modern UI</span><div class="skill-bar-bg"><div class="skill-fill" data-skill="75"></div></div></div>
     </div>
   </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
-  <div class="sec">
-    <div class="s-eyebrow au"><span class="s-num">03</span><div class="s-eye-line"></div></div>
-    <h2 class="s-title au d1">WHAT I'VE <span class="out">BUILT</span></h2>
-    <div class="pr-grid">
-      <div class="pr-card au">
-        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80" alt="Disease Prediction" class="pr-img">
-        <div class="pr-grad"></div>
-        <div class="pr-body">
-          <div class="pr-idx">01 / Featured</div>
-          <div class="pr-title">Disease Prediction System</div>
-          <div class="pr-desc">ML-powered web app using multiple classifiers (Random Forest, SVM, Naïve Bayes) to predict diseases from symptoms. Built with Python, Scikit-Learn &amp; Streamlit.</div>
-          <div class="pr-tags"><span class="pt">Python</span><span class="pt">Scikit-Learn</span><span class="pt">Streamlit</span><span class="pt">ML</span></div>
-          <a href="#" class="pr-lnk">View Project →</a>
-        </div>
+  <h2 class="section-title">🌀 Digital Creations 🌀</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <img class="project-img" src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=600&auto=format" alt="traffic">
+      <div class="project-info">
+        <h3>Traffic Prediction + Optimizer</h3>
+        <p>Random Forest + Dijkstra's algorithm – predicts congestion and suggests optimal routes. Built with Streamlit & NetworkX.</p>
+        <div><span class="tech-tag">Python</span><span class="tech-tag">Scikit-learn</span><span class="tech-tag">Streamlit</span></div>
+        <a href="#" style="color:cyan; display:inline-block; margin-top: 1rem;"><i class="fab fa-github"></i> Explore</a>
       </div>
-      <div class="pr-card au d1">
-        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80" alt="Network Intrusion" class="pr-img">
-        <div class="pr-grad"></div>
-        <div class="pr-body">
-          <div class="pr-idx">02</div>
-          <div class="pr-title">Network Intrusion Detection</div>
-          <div class="pr-desc">Cyber security project using ML classifiers to detect anomalous network traffic patterns.</div>
-          <div class="pr-tags"><span class="pt">Python</span><span class="pt">ML</span><span class="pt">Security</span></div>
-          <a href="#" class="pr-lnk">View Project →</a>
-        </div>
-      </div>
-      <div class="pr-card au d2">
-        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80" alt="Student Portal" class="pr-img">
-        <div class="pr-grad"></div>
-        <div class="pr-body">
-          <div class="pr-idx">03</div>
-          <div class="pr-title">Student Management Portal</div>
-          <div class="pr-desc">Full-stack Java web app with MySQL backend and JDBC connectivity for academic record management.</div>
-          <div class="pr-tags"><span class="pt">Java</span><span class="pt">MySQL</span><span class="pt">JDBC</span></div>
-          <a href="#" class="pr-lnk">View Project →</a>
-        </div>
+    </div>
+    <div class="project-card">
+      <img class="project-img" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&auto=format" alt="fullstack">
+      <div class="project-info">
+        <h3>FullStack Suite (JSpiders)</h3>
+        <p>Complete CRUD applications with Java, JDBC, MySQL, frontend magic. Real-world solutions with responsive UI.</p>
+        <div><span class="tech-tag">Java</span><span class="tech-tag">MySQL</span><span class="tech-tag">HTML/CSS</span><span class="tech-tag">JS</span></div>
+        <a href="#" style="color:cyan; display:inline-block; margin-top: 1rem;"><i class="fab fa-github"></i> Demo</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- EDUCATION -->
 <section id="education">
-  <div class="sec">
-    <div class="s-eyebrow au"><span class="s-num">04</span><div class="s-eye-line"></div></div>
-    <h2 class="s-title au d1">WHERE I <span class="out">LEARNED</span></h2>
-    <div class="edu-list">
-      <div class="edu-row au">
-        <div class="edu-yr">2021 — 2025</div>
-        <div>
-          <div class="edu-deg">B.E. Computer Science &amp; Engineering</div>
-          <div class="edu-inst">Visvesvaraya Technological University · Tumakuru, Karnataka</div>
-          <div class="edu-chips">
-            <span class="chip">Data Structures</span>
-            <span class="chip">DBMS</span>
-            <span class="chip">Machine Learning</span>
-            <span class="chip">OS &amp; Networks</span>
-            <span class="chip">Web Technologies</span>
-          </div>
-        </div>
-        <div class="edu-score">7.59<span>CGPA / 10</span></div>
-      </div>
-      <div class="edu-row au d1">
-        <div class="edu-yr">2019 — 2021</div>
-        <div>
-          <div class="edu-deg">Pre-University (PCMB)</div>
-          <div class="edu-inst">Karnataka State Board · Tumakuru</div>
-          <div class="edu-chips">
-            <span class="chip">Physics</span>
-            <span class="chip">Chemistry</span>
-            <span class="chip">Mathematics</span>
-            <span class="chip">Biology</span>
-          </div>
-        </div>
-        <div class="edu-score">—<span>Completed</span></div>
-      </div>
+  <h2 class="section-title">📖 Academic Odyssey</h2>
+  <div class="skills-grid">
+    <div class="glass-card">
+      <i class="fas fa-university" style="font-size: 2rem;"></i>
+      <h3>B.E Computer Science</h3>
+      <p>Sri Siddhartha Institute of Technology, Tumakuru (VTU)</p>
+      <p>2021 – 2025 | CGPA: 7.59 (75.86%)</p>
+    </div>
+    <div class="glass-card">
+      <i class="fas fa-certificate" style="font-size: 2rem;"></i>
+      <h3>Certifications & Training</h3>
+      <p>✓ Java Full Stack - JSpiders Bengaluru</p>
+      <p>✓ Cybersecurity Intern - Ashtaksha Pvt Ltd</p>
+      <p>✓ Machine Learning Fundamentals</p>
     </div>
   </div>
 </section>
 
+<!-- CONTACT + WHY HIRE -->
 <section id="contact">
-  <div class="sec">
-    <div class="s-eyebrow au"><span class="s-num">05</span><div class="s-eye-line"></div></div>
-    <div class="ct-grid">
-      <div class="ct-left au-l">
-        <div class="ct-big">LET'S <span class="ac">WORK</span> <span class="out">TOGETHER</span></div>
-        <p class="ct-sub">Open to full-time roles, internships, and freelance projects. Based in Bengaluru — available immediately.</p>
-        <div class="ct-links">
-          <a href="mailto:arfan@example.com" class="ct-row">
-            <div class="ct-row-l">
-              <div class="ct-ico">@</div>
-              <div><div class="ct-lbl">Email</div><div class="ct-val">arfan@example.com</div></div>
-            </div>
-            <span class="ct-arr">↗</span>
-          </a>
-          <a href="https://linkedin.com" target="_blank" class="ct-row">
-            <div class="ct-row-l">
-              <div class="ct-ico">in</div>
-              <div><div class="ct-lbl">LinkedIn</div><div class="ct-val">linkedin.com/in/arfan</div></div>
-            </div>
-            <span class="ct-arr">↗</span>
-          </a>
-          <a href="https://github.com" target="_blank" class="ct-row">
-            <div class="ct-row-l">
-              <div class="ct-ico">gh</div>
-              <div><div class="ct-lbl">GitHub</div><div class="ct-val">github.com/arfan</div></div>
-            </div>
-            <span class="ct-arr">↗</span>
-          </a>
-        </div>
+  <h2 class="section-title">🌐 Collab & Connect</h2>
+  <div class="contact-duo">
+    <div class="glass-card">
+      <div class="contact-detail"><div class="icon-circle"><i class="fas fa-envelope"></i></div><div><h3>Email</h3><p>ahmedarfan111@gmail.com</p></div></div>
+      <div class="contact-detail"><div class="icon-circle"><i class="fas fa-phone-alt"></i></div><div><h3>Phone</h3><p>+91 7019024007</p></div></div>
+      <div class="contact-detail"><div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div><div><h3>Location</h3><p>Bengaluru, India</p></div></div>
+      <div class="social-links">
+        <a href="https://github.com/ArfanOrewa" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/ahmed-arfan" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:ahmedarfan111@gmail.com"><i class="fas fa-paper-plane"></i></a>
       </div>
-      <div class="why-list au-r d1">
-        <div class="why">
-          <div class="why-h"><span class="why-n">01</span><span class="why-t">Fast Learner</span></div>
-          <p class="why-d">Picked up Streamlit, JDBC, and ML pipelines independently while managing coursework — I learn by building.</p>
-        </div>
-        <div class="why">
-          <div class="why-h"><span class="why-n">02</span><span class="why-t">End-to-End Ownership</span></div>
-          <p class="why-d">From database schema to UI polish, I own the full lifecycle. No hand-offs, no gaps.</p>
-        </div>
-        <div class="why">
-          <div class="why-h"><span class="why-n">03</span><span class="why-t">Collaborative &amp; Communicative</span></div>
-          <p class="why-d">Clear documentation, regular updates, and a team-first mindset on every project.</p>
-        </div>
-      </div>
+    </div>
+    <div class="glass-card">
+      <h3 style="font-size: 1.9rem;">✨ Why Me?</h3>
+      <ul style="list-style: none; margin-top: 1rem;">
+        <li style="margin: 1rem 0;">🚀 <strong>Adaptive Learner</strong> – Fast adoption of modern tech stacks</li>
+        <li style="margin: 1rem 0;">⚙️ <strong>FullStack Alchemist</strong> – from databases to creative frontends</li>
+        <li style="margin: 1rem 0;">🧠 <strong>Problem Solver</strong> – Algorithms & scalable architectures</li>
+        <li style="margin: 1rem 0;">💡 <strong>Innovation Driven</strong> – blending ML with real-world impact</li>
+      </ul>
+      <div style="margin-top: 1.5rem; background: linear-gradient(120deg, cyan, purple); border-radius: 20px; padding: 1rem; text-align: center;">“Code with soul, design with purpose”</div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="f-logo">arfan<span>.dev</span></div>
-  <div class="f-copy">© 2025 Arfan Ahmed Khan · Built with passion</div>
-  <div class="f-socs">
-    <a href="#" class="f-s">gh</a>
-    <a href="#" class="f-s">in</a>
-    <a href="#" class="f-s">tw</a>
+  <p style="font-size: 1.5rem; font-weight: bold;">Arfan Ahmed Khan</p>
+  <p>Computer Science Engineer | Creator | Problem Solver</p>
+  <div class="social-links" style="justify-content: center; margin: 1rem 0;">
+    <a href="https://github.com/ArfanOrewa"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/ahmed-arfan"><i class="fab fa-linkedin-in"></i></a>
   </div>
+  <p style="opacity:0.6;">© 2025 | Aesthetic Portfolio | Infinite Vision</p>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  (function() {
+    // ========== 3D ORBS + DYNAMIC BACKGROUND ==========
+    const canvas = document.getElementById('orbCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth, height = window.innerHeight;
+    let particles = [];
+    const PARTICLE_COUNT = 45;
+    
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    
+    class Orb {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.radius = Math.random() * 60 + 20;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.2;
+        this.hue = Math.random() * 60 + 180; // cyan to purple range
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if(this.x < -100) this.x = width + 50;
+        if(this.x > width + 100) this.x = -50;
+        if(this.y < -100) this.y = height + 50;
+        if(this.y > height + 100) this.y = -50;
+      }
+      draw() {
+        const grad = ctx.createRadialGradient(this.x, this.y, 5, this.x, this.y, this.radius);
+        grad.addColorStop(0, `hsla(${this.hue}, 80%, 60%, 0.2)`);
+        grad.addColorStop(1, `hsla(${this.hue+20}, 70%, 40%, 0)`);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+    }
+    
+    function initOrbs() {
+      particles = [];
+      for(let i=0;i<PARTICLE_COUNT;i++) particles.push(new Orb());
+    }
+    
+    function animateOrbs() {
+      if(!ctx) return;
+      ctx.clearRect(0,0,width,height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animateOrbs);
+    }
+    
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      initOrbs();
+    });
+    resizeCanvas();
+    initOrbs();
+    animateOrbs();
+    
+    // ========== TYPEWRITER ==========
+    const texts = [
+      "Full-Stack Developer | ML Enthusiast",
+      "Java • Python • React • Problem Solver",
+      "Building next-gen digital experiences"
+    ];
+    let idx = 0, charIdx = 0, isDeleting = false;
+    const typedEl = document.getElementById('typedText');
+    function typeEffect() {
+      const current = texts[idx];
+      if(isDeleting) {
+        typedEl.textContent = current.substring(0, charIdx-1);
+        charIdx--;
+      } else {
+        typedEl.textContent = current.substring(0, charIdx+1);
+        charIdx++;
+      }
+      if(!isDeleting && charIdx === current.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 1800);
+        return;
+      }
+      if(isDeleting && charIdx === 0) {
+        isDeleting = false;
+        idx = (idx+1) % texts.length;
+        setTimeout(typeEffect, 300);
+        return;
+      }
+      setTimeout(typeEffect, isDeleting ? 40 : 80);
+    }
+    setTimeout(typeEffect, 500);
+    
+    // ========== SKILL BAR ANIMATION (Intersection Observer) ==========
+    const skillFills = document.querySelectorAll('.skill-fill');
+    const observerSkills = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          const fillEl = entry.target;
+          const percent = fillEl.getAttribute('data-skill');
+          if(percent) fillEl.style.width = percent + '%';
+          observerSkills.unobserve(fillEl);
+        }
+      });
+    }, { threshold: 0.5 });
+    skillFills.forEach(fill => observerSkills.observe(fill));
+    
+    // ========== SCROLL PROGRESS & HEADER HIDE/SHOW ==========
+    const progress = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progress.style.width = scrolled + '%';
+      
+      const header = document.getElementById('mainHeader');
+      if(winScroll > 100) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+    
+    // ========== MOBILE MENU ==========
+    const menuBtn = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    menuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => navMenu.classList.remove('active'));
+    });
+    
+    // ========== SMOOTH SCROLL + PARALLAX EFFECT (not needed but pretty) ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    
+    // ========== project card mouse tilt dynamic (creative) ==========
+    const cards = document.querySelectorAll('.project-card, .glass-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width/2;
+        const centerY = rect.height/2;
+        const rotateX = (y - centerY)/20;
+        const rotateY = (centerX - x)/20;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+    });
+    
+    // dynamic year update if needed
+    const yearSpan = document.querySelector('.copyright-year');
+    if(yearSpan) yearSpan.innerText = new Date().getFullYear();
+    
+    // Additional Glow effect on stat cards
+    console.log("✨ Immersive Portfolio Loaded — Innovation meets Aesthetic");
+  })();
+</script>
 </body>
 </html>
