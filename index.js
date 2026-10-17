@@ -1,186 +1,201 @@
-/* ============================================================
-   Portfolio interactions
-   ============================================================ */
+/* ============ ARFAN — THE SERIES · interactions ============ */
 (function () {
   'use strict';
 
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isFinePointer = window.matchMedia('(pointer: fine)').matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Scroll progress bar ---------- */
-  var progressBar = document.getElementById('progressBar');
-  function updateProgress() {
-    var scrollTop = window.scrollY || document.documentElement.scrollTop;
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = pct + '%';
+  /* ---------- 1. INTRO IDENT ---------- */
+  var intro = $('intro');
+  var introDone = false;
+  function finishIntro() {
+    if (introDone) return;
+    introDone = true;
+    intro.classList.add('done');
+    document.body.classList.remove('locked');
+    showGate();
   }
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
+  document.body.classList.add('locked');
+  intro.addEventListener('click', finishIntro);
+  $('introPlay').addEventListener('click', function (e) { e.stopPropagation(); finishIntro(); });
+  // Auto-advance after the ident plays out (~4.2s), instant if reduced motion
+  setTimeout(finishIntro, reducedMotion ? 100 : 4200);
 
-  /* ---------- Custom cursor glow (desktop only) ---------- */
-  var cursorGlow = document.getElementById('cursorGlow');
-  if (isFinePointer && !prefersReduced) {
-    var glowX = -9999, glowY = -9999, curX = -9999, curY = -9999;
-    document.addEventListener('mousemove', function (e) {
-      glowX = e.clientX; glowY = e.clientY;
-    });
-    (function animateGlow() {
-      curX += (glowX - curX) * 0.08;
-      curY += (glowY - curY) * 0.08;
-      cursorGlow.style.transform = 'translate3d(' + curX + 'px,' + curY + 'px,0)';
-      requestAnimationFrame(animateGlow);
-    })();
-  } else {
-    cursorGlow.style.display = 'none';
+  /* ---------- 2. PROFILE GATE ---------- */
+  var gate = $('gate');
+  var toast = $('toast');
+  var toastTimer = null;
+  var AVATAR_CLASS = { Arfan: 'av-1', Recruiter: 'av-2', Developer: 'av-3', Stalker: 'av-4' };
+  var GREETINGS = {
+    Arfan: 'Welcome back, Arfan. Enjoy the show.',
+    Recruiter: 'Welcome, Recruiter. Grab your popcorn — the best parts are ahead.',
+    Developer: 'Welcome, Developer. Yes, the code is on GitHub.',
+    Stalker: 'Welcome… we see you. Everything you need is right here.'
+  };
+  function showGate() {
+    // If a profile was picked before, skip the gate
+    var saved = null;
+    try { saved = localStorage.getItem('arfan_profile'); } catch (e) {}
+    if (saved && AVATAR_CLASS[saved]) { enterSite(saved, false); return; }
+    gate.classList.remove('done');
   }
-
-  /* ---------- Mobile hamburger ---------- */
-  var hamburger = document.getElementById('hamburger');
-  var navLinks = document.getElementById('navLinks');
-  hamburger.addEventListener('click', function () {
-    var open = navLinks.classList.toggle('open');
-    hamburger.classList.toggle('active', open);
-    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  function enterSite(profile, greet) {
+    try { localStorage.setItem('arfan_profile', profile); } catch (e) {}
+    gate.classList.add('done');
+    var chipAvatar = $('chipAvatar');
+    chipAvatar.textContent = profile.charAt(0);
+    chipAvatar.className = 'chip-avatar ' + AVATAR_CLASS[profile];
+    if (greet !== false) showToast(GREETINGS[profile] || ('Welcome, ' + profile + '.'));
+  }
+  $$('.profile').forEach(function (btn) {
+    btn.addEventListener('click', function () { enterSite(btn.getAttribute('data-profile')); });
   });
-  document.querySelectorAll('#navLinks .nav-link').forEach(function (link) {
-    link.addEventListener('click', function () {
-      navLinks.classList.remove('open');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
+  $('profileChip').addEventListener('click', function () {
+    gate.classList.remove('done');
+    showToast('Switch profiles any time.');
   });
 
-  /* ---------- Active nav link on scroll ---------- */
-  var sections = document.querySelectorAll('main section[id]');
-  var navAnchors = document.querySelectorAll('#navLinks .nav-link');
-  function setActiveNav() {
-    var current = 'home';
-    sections.forEach(function (sec) {
-      if (window.scrollY >= sec.offsetTop - 140) current = sec.id;
-    });
-    navAnchors.forEach(function (a) {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3400);
   }
-  window.addEventListener('scroll', setActiveNav, { passive: true });
-  setActiveNav();
 
-  /* ---------- Typewriter effect ---------- */
-  var typedEl = document.getElementById('typedText');
-  var roles = ['Software Engineer', 'Full-Stack Developer', 'Java Developer'];
-  var roleIdx = 0, charIdx = 0, deleting = false;
-  function typeLoop() {
-    var word = roles[roleIdx];
-    if (!deleting) {
-      charIdx++;
-      typedEl.textContent = word.slice(0, charIdx);
-      if (charIdx === word.length) {
-        deleting = true;
-        setTimeout(typeLoop, 1800);
-        return;
-      }
-      setTimeout(typeLoop, 70);
-    } else {
-      charIdx--;
-      typedEl.textContent = word.slice(0, charIdx);
-      if (charIdx === 0) {
-        deleting = false;
-        roleIdx = (roleIdx + 1) % roles.length;
-        setTimeout(typeLoop, 350);
-        return;
-      }
-      setTimeout(typeLoop, 38);
+  /* ---------- 3. NAV ---------- */
+  var nav = $('nav');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 40); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var hamburger = $('hamburger');
+  var mobileMenu = $('mobileMenu');
+  hamburger.addEventListener('click', function () { mobileMenu.classList.toggle('open'); });
+  $$('#mobileMenu a').forEach(function (a) {
+    a.addEventListener('click', function () { mobileMenu.classList.remove('open'); });
+  });
+
+  $('navCta').addEventListener('click', function () {
+    var el = $('contact');
+    if (el) el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+  });
+
+  /* ---------- 4. MY LIST ---------- */
+  var listBtn = $('listBtn');
+  var listAdded = false;
+  try { listAdded = localStorage.getItem('arfan_mylist') === '1'; } catch (e) {}
+  function renderListBtn() {
+    listBtn.classList.toggle('added', listAdded);
+    listBtn.innerHTML = listAdded
+      ? '<i class="fa-solid fa-check"></i><span>My List</span>'
+      : '<i class="fa-solid fa-plus"></i><span>My List</span>';
+  }
+  renderListBtn();
+  listBtn.addEventListener('click', function () {
+    listAdded = !listAdded;
+    try { localStorage.setItem('arfan_mylist', listAdded ? '1' : '0'); } catch (e) {}
+    renderListBtn();
+    showToast(listAdded ? 'Added to your list.' : 'Removed from your list.');
+  });
+
+  /* ---------- 5. PLAY INTRO REEL ---------- */
+  var reelModal = $('reelModal');
+  var slides = $$('.reel-slide');
+  var dotsWrap = $('reelDots');
+  var current = 0;
+  var reelOpen = false;
+
+  slides.forEach(function (_, i) {
+    var d = document.createElement('span');
+    d.addEventListener('click', function () { goSlide(i); });
+    dotsWrap.appendChild(d);
+  });
+  var dots = $$('span', dotsWrap);
+
+  function goSlide(i) {
+    current = (i + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle('active', k === current); });
+    dots.forEach(function (d, k) { d.classList.toggle('on', k === current); });
+  }
+  function openReel() {
+    reelOpen = true;
+    goSlide(0);
+    reelModal.classList.add('open');
+    document.body.classList.add('locked');
+  }
+  function closeReel() {
+    reelOpen = false;
+    reelModal.classList.remove('open');
+    document.body.classList.remove('locked');
+  }
+  $('playBtn').addEventListener('click', openReel);
+  $('reelClose').addEventListener('click', closeReel);
+  $('reelPrev').addEventListener('click', function () { goSlide(current - 1); });
+  $('reelNext').addEventListener('click', function () { goSlide(current + 1); });
+  reelModal.addEventListener('click', function (e) { if (e.target === reelModal) closeReel(); });
+  $('reelCta').addEventListener('click', closeReel);
+
+  document.addEventListener('keydown', function (e) {
+    if (!introDone && (e.key === 'Enter' || e.key === 'Escape')) { finishIntro(); return; }
+    if (reelOpen) {
+      if (e.key === 'Escape') closeReel();
+      else if (e.key === 'ArrowRight') goSlide(current + 1);
+      else if (e.key === 'ArrowLeft') goSlide(current - 1);
     }
-  }
-  if (prefersReduced) {
-    typedEl.textContent = roles[0];
-  } else {
-    typeLoop();
-  }
+  });
 
-  /* ---------- Scroll reveal ---------- */
-  var revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && !prefersReduced) {
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var el = entry.target;
-          var delay = parseInt(el.getAttribute('data-delay') || '0', 10);
-          setTimeout(function () { el.classList.add('visible'); }, delay);
-          revealObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(function (el) { revealObserver.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add('visible'); });
-  }
+  /* ---------- 6. RAIL ARROWS ---------- */
+  $$('.rail-wrap').forEach(function (wrap) {
+    var rail = wrap.querySelector('.rail');
+    var left = wrap.querySelector('.rail-arrow.left');
+    var right = wrap.querySelector('.rail-arrow.right');
+    if (!rail || !left || !right) return;
+    var step = function () { return rail.clientWidth * 0.8; };
+    left.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    right.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
+  });
 
-  /* ---------- Animated counters ---------- */
-  var counters = document.querySelectorAll('.counter');
-  function animateCounter(el) {
-    var target = parseInt(el.getAttribute('data-target'), 10);
-    if (isNaN(target)) return;
-    var duration = 1400, start = null;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(eased * target);
-      if (p < 1) requestAnimationFrame(step);
-      else el.textContent = target;
-    }
-    if (prefersReduced) { el.textContent = target; return; }
-    requestAnimationFrame(step);
-  }
-  if ('IntersectionObserver' in window) {
-    var counterObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          counterObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach(function (c) { counterObserver.observe(c); });
-  } else {
-    counters.forEach(animateCounter);
-  }
+  /* ---------- 7. SCROLL REVEALS ---------- */
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) {
+        var d = en.target.getAttribute('data-delay');
+        en.target.style.transitionDelay = d ? d + 'ms' : '0ms';
+        en.target.classList.add('in');
+        revealObs.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  $$('.reveal').forEach(function (el) { revealObs.observe(el); });
 
-  /* ---------- Infinite marquee (duplicate track) ---------- */
-  var track = document.getElementById('marqueeTrack');
-  if (track) {
-    track.innerHTML += track.innerHTML;
-  }
-
-  /* ---------- Magnetic buttons (desktop only) ---------- */
-  if (isFinePointer && !prefersReduced) {
-    document.querySelectorAll('.magnetic').forEach(function (el) {
-      el.addEventListener('mousemove', function (e) {
-        var rect = el.getBoundingClientRect();
-        var x = e.clientX - rect.left - rect.width / 2;
-        var y = e.clientY - rect.top - rect.height / 2;
-        el.style.transform = 'translate(' + x * 0.22 + 'px,' + y * 0.28 + 'px)';
-      });
-      el.addEventListener('mouseleave', function () {
-        el.style.transform = 'translate(0,0)';
-      });
+  /* ---------- 8. REAL WATCH PROGRESS ---------- */
+  // Sections marked data-watch update their "Continue Exploring" progress bar
+  // as they are actually viewed. Progress persists across visits.
+  var watched = {};
+  try { watched = JSON.parse(localStorage.getItem('arfan_watched') || '{}'); } catch (e) { watched = {}; }
+  function paintProgress() {
+    Object.keys(watched).forEach(function (key) {
+      var bar = document.querySelector('[data-progress-for="' + key + '"]');
+      if (bar) bar.style.width = Math.min(100, watched[key]) + '%';
     });
   }
-
-  /* ---------- Bento card spotlight follows cursor ---------- */
-  if (isFinePointer) {
-    document.querySelectorAll('.bento-card').forEach(function (card) {
-      card.addEventListener('mousemove', function (e) {
-        var rect = card.getBoundingClientRect();
-        card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
-        card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
-      });
-    });
+  function saveWatched() {
+    try { localStorage.setItem('arfan_watched', JSON.stringify(watched)); } catch (e) {}
   }
-
-  /* ---------- Footer year ---------- */
-  var yearEl = document.getElementById('year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  paintProgress();
+  var watchObs = new IntersectionObserver(function (entries) {
+    var changed = false;
+    entries.forEach(function (en) {
+      if (en.isIntersecting) {
+        var key = en.target.getAttribute('data-watch');
+        var ratio = Math.round(en.intersectionRatio * 100);
+        // viewed = at least 60% credit once the section is meaningfully on screen
+        var credit = ratio > 25 ? 100 : Math.max(watched[key] || 0, 45);
+        if ((watched[key] || 0) < credit) { watched[key] = credit; changed = true; }
+      }
+    });
+    if (changed) { paintProgress(); saveWatched(); }
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  $$('[data-watch]').forEach(function (el) { watchObs.observe(el); });
 })();
