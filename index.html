@@ -1,392 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🖤Arfan Ahmed Khan||Animated Portfolio 🖤</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="./index.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Arfan Ahmed Khan — Software Engineer based in Bengaluru, India. Java full-stack development, data analytics, and applied machine learning projects." />
+  <title>Arfan Ahmed Khan — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="index.css" />
 </head>
-
 <body>
+  <!-- Scroll progress -->
+  <div id="progressBar" aria-hidden="true"></div>
 
-  <div class="bg-animation">
-    <div class="bg-circle"></div>
-    <div class="bg-circle"></div>
-    <div class="bg-circle"></div>
+  <!-- Custom cursor glow (desktop only) -->
+  <div id="cursorGlow" aria-hidden="true"></div>
+
+  <!-- Ambient background -->
+  <div class="aurora" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-overlay"></div>
+    <div class="noise"></div>
   </div>
 
-
-  <div class="scroll-progress" id="scrollProgress"></div>
-
-  <header id="header">
-    <div class="nav-container">
-      <a href="#" class="logo">Arfan.Co</a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#contact">Contact</a></li>
+  <!-- Navigation -->
+  <header id="navbar">
+    <nav class="nav-inner">
+      <a href="#home" class="logo">AK<span class="logo-dot">.</span></a>
+      <button id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#contact" class="nav-link nav-cta">Contact</a></li>
       </ul>
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
+    </nav>
   </header>
 
-  <section class="hero">
-    <div class="particle-container" id="particles"></div>
-    <div class="profile-container fade-in-up">
-      <img
-        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjxDlm13uVFgvHO_DrJ52cgwxyYqSMgDZjc23wo23nkbQFN86G8bK0tHLsdPKyNhhYpscPc3Nime6ads6yTC632wufdGZknNuZZcitIwdnkunRcHsgKqj2q6kmA94UJ5uBllWp4p0m0bsLkMyA1irFXd0-rH-j7t4xerXmM4gNdxhu3JlwsCQn4UW2K2j4/s0/wallpaper-for-pc-2025031817240618.jpg"
-        alt="Arfan Ahmed Khan" class="profile-img">
-    </div>
-    <h1 class="fade-in-up delay-1">Computer Science Engineering</h1>
-    <p class="hero-subtitle fade-in-up delay-2">Arfan Ahmed Khan</p>
-    <div class="typewriter-container fade-in-up delay-3">
-      <div class="typewriter-text" id="typewriter"></div>
-    </div>
-    <a href="#contact" class="cta-button fade-in-up delay-4">Get In Touch</a>
-
-    <div class="hero-stats">
-      <div class="stat fade-in-left delay-1">
-        <span class="stat-number">2025</span>
-        <span class="stat-label">Graduation Year</span>
-      </div>
-      <div class="stat fade-in-left delay-2">
-        <span class="stat-number">7.59</span>
-        <span class="stat-label">CGPA</span>
-      </div>
-      <div class="stat fade-in-right delay-3">
-        <span class="stat-number">5+</span>
-        <span class="stat-label">Projects</span>
-      </div>
-      <div class="stat fade-in-right delay-4">
-        <span class="stat-number">2</span>
-        <span class="stat-label">Certifications</span>
-      </div>
-    </div>
-  </section>
-
-
-  <section id="about">
-    <h2 class="section-title fade-in-up">About Me</h2>
-    <div class="about-content fade-in-up delay-1">
-      <div class="about-text">
-        <p>
-          I'm a recent <span class="highlight">Computer Science Engineering graduate</span> from Sri Siddhartha
-          Institute of Technology, Tumakuru (VTU) with an aggregate of 75.86%.
-          My academic journey has equipped me with strong foundations in software development, problem-solving, and
-          system design.
-        </p>
-        <p>
-          Through my projects and training, I've developed expertise in building <span class="highlight">full-stack
-            applications</span> and
-          <span class="highlight">machine learning-based solutions</span>. I completed comprehensive training in Java
-          Full Stack Development
-          at JSpiders, Bengaluru, where I built several full-stack applications.
-        </p>
-        <p>
-          I'm passionate about creating efficient, scalable solutions and continuously learning new technologies.
-          As a fresher, I bring fresh perspectives, adaptability, and strong foundational knowledge to any development
-          team.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section id="skills">
-    <h2 class="section-title fade-in-up">Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-card fade-in-left delay-1">
-        <i class="fab fa-java skill-icon"></i>
-        <h3>Java Development</h3>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>Core Java</span>
-            <span>90%</span>
+  <main>
+    <!-- ============ HERO ============ -->
+    <section id="home" class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <div class="hero-pill reveal">
+            <i class="fa-solid fa-location-dot"></i> Bengaluru, Karnataka, India
           </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="90"></div>
+          <h1 class="hero-title reveal" data-delay="100">
+            Arfan Ahmed <span class="gradient-text">Khan</span>
+          </h1>
+          <div class="typewriter-line reveal" data-delay="200">
+            <span class="typewriter-prefix">I'm a</span>
+            <span id="typedText"></span><span class="caret" aria-hidden="true"></span>
           </div>
-        </div>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>OOpS Concepts</span>
-            <span>85%</span>
-          </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="85"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="skill-card fade-in-up delay-2">
-        <i class="fab fa-python skill-icon"></i>
-        <h3>Python & Data Science</h3>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>Python Programming</span>
-            <span>80%</span>
-          </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="80"></div>
-          </div>
-        </div>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>OOpS Concepts</span>
-            <span>75%</span>
-          </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="75"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="skill-card fade-in-right delay-3">
-        <i class="fas fa-code skill-icon"></i>
-        <h3>Web Development</h3>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>HTML/CSS</span>
-            <span>85%</span>
-          </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="85"></div>
-          </div>
-        </div>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>JavaScript</span>
-            <span>70%</span>
-          </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="70"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2 class="section-title fade-in-up">Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card fade-in-left delay-1">
-        <img
-          src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          alt="Traffic Management" class="project-image">
-        <div class="project-content">
-          <h3 class="project-title">Traffic Prediction & Optimization</h3>
-          <p class="project-description">
-            Developed an intelligent traffic management system to predict congestion and suggest optimal routes using
-            Random Forest algorithm and Dijkstra's algorithm for route optimization.
+          <p class="hero-sub reveal" data-delay="300">
+            B.E. Computer Science engineer building intelligent software — from
+            LLM-powered assistants and real-time computer vision to full-stack
+            Java applications.
           </p>
-          <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Pandas</span>
-            <span class="tech-tag">Scikit-learn</span>
-            <span class="tech-tag">Streamlit</span>
-            <span class="tech-tag">NetworkX</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">
-              <i class="fab fa-github"></i> View Code
+          <div class="hero-ctas reveal" data-delay="400">
+            <a href="#projects" class="btn btn-primary magnetic">
+              View Projects <i class="fa-solid fa-arrow-right"></i>
             </a>
+            <a href="#contact" class="btn btn-ghost magnetic">Get in Touch</a>
           </div>
+          <div class="hero-socials reveal" data-delay="500">
+            <a href="https://github.com/ArfanOrewa" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/ahmed-arfan" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="mailto:ahmedarfan111@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="hero-visual reveal" data-delay="200">
+          <div class="profile-ring">
+            <img src="profile.jpg" alt="Arfan Ahmed Khan" />
+          </div>
+          <div class="orbit orbit-1" aria-hidden="true"></div>
+          <div class="orbit orbit-2" aria-hidden="true"></div>
         </div>
       </div>
-
-      <div class="project-card fade-in-right delay-2">
-        <img
-          src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
-          alt="Full Stack App" class="project-image">
-        <div class="project-content">
-          <h3 class="project-title">Full Stack Applications</h3>
-          <p class="project-description">
-            Developed multiple full-stack applications during Java Full Stack Development training at JSpiders,
-            implementing complete solutions with frontend, backend, and database integration.
-          </p>
-          <div class="project-tech">
-            <span class="tech-tag">Java</span>
-            <span class="tech-tag">HTML/CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">JDBC</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">
-              <i class="fab fa-github"></i> View Projects
-            </a>
-          </div>
+      <div class="hero-stats reveal" data-delay="600">
+        <div class="stat">
+          <span class="counter" data-target="6">0</span><span class="stat-plus">+</span>
+          <p>Projects Built</p>
         </div>
+        <div class="stat">
+          <span class="counter" data-target="27">0</span>
+          <p>Technologies</p>
+        </div>
+        <div class="stat">
+          <span class="counter" data-target="2">0</span>
+          <p>Internships</p>
+        </div>
+      </div>
+      <a href="#about" class="scroll-hint" aria-label="Scroll to about">
+        <i class="fa-solid fa-chevron-down"></i>
+      </a>
+    </section>
+
+    <!-- ============ TECH MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marqueeTrack">
+        <span>Java</span><span class="sep">◆</span>
+        <span>Python</span><span class="sep">◆</span>
+        <span>Spring Boot</span><span class="sep">◆</span>
+        <span>YOLOv8</span><span class="sep">◆</span>
+        <span>Scikit-learn</span><span class="sep">◆</span>
+        <span>React.js</span><span class="sep">◆</span>
+        <span>MySQL</span><span class="sep">◆</span>
+        <span>OpenCV</span><span class="sep">◆</span>
+        <span>Streamlit</span><span class="sep">◆</span>
+        <span>REST APIs</span><span class="sep">◆</span>
+        <span>Pandas</span><span class="sep">◆</span>
       </div>
     </div>
-  </section>
 
-
-  <section id="education">
-    <h2 class="section-title fade-in-up">Education</h2>
-    <div class="skills-grid">
-      <div class="skill-card fade-in-left delay-1">
-        <i class="fas fa-graduation-cap skill-icon"></i>
-        <h3>Bachelor of Engineering</h3>
-        <p><strong>Computer Science Engineering</strong></p>
-        <p>Sri Siddhartha Institute of Technology, Tumakuru (VTU)</p>
-        <p>2021 - 2025 | Aggregate: 75.86%</p>
-      </div>
-
-      <div class="skill-card fade-in-right delay-2">
-        <i class="fas fa-certificate skill-icon"></i>
-        <h3>Training & Certifications</h3>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>Java Full Stack Development</span>
-            <span>JSpiders, Bengaluru</span>
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section">
+      <div class="container">
+        <p class="section-kicker reveal">01 · About</p>
+        <h2 class="section-title reveal" data-delay="100">Engineer with an <span class="gradient-text">AI-first</span> mindset</h2>
+        <div class="about-grid">
+          <div class="about-text reveal" data-delay="150">
+            <p>
+              I'm a Computer Science Engineering graduate from Sri Siddhartha
+              Institute of Technology (VTU), where I built a strong foundation
+              in software engineering — and then went deep into applied AI.
+            </p>
+            <p>
+              As a Java Full Stack Developer Intern at Robowaves, I shipped
+              end-to-end web applications with Core Java, Servlets, and MySQL.
+              Alongside that, I trained in full-stack development at JSpiders
+              Bengaluru and completed a Cyber Security internship at Ashtaksha
+              Pvt Ltd.
+            </p>
+            <p>
+              My independent work lives at the intersection of LLMs and
+              real-world systems: a voice-controlled PC assistant powered by
+              large language models, an offline YOLOv8 detection system for
+              the visually impaired, and ML models for traffic and churn
+              prediction.
+            </p>
+            <div class="about-langs">
+              <i class="fa-solid fa-language"></i>
+              <span>English · Kannada · Hindi · Urdu</span>
+            </div>
           </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="95"></div>
+          <div class="about-cards">
+            <div class="glass-card reveal" data-delay="200">
+              <i class="fa-solid fa-graduation-cap card-icon"></i>
+              <h3>Education</h3>
+              <p>B.E. Computer Science<br />CGPA 7.12 · VTU</p>
+            </div>
+            <div class="glass-card reveal" data-delay="300">
+              <i class="fa-solid fa-briefcase card-icon"></i>
+              <h3>Experience</h3>
+              <p>Java Full Stack Intern<br />Robowaves · 12 months</p>
+            </div>
+            <div class="glass-card reveal" data-delay="400">
+              <i class="fa-solid fa-certificate card-icon"></i>
+              <h3>Training</h3>
+              <p>JSpiders Full Stack<br />Ashtaksha Cyber Security</p>
+            </div>
+            <div class="glass-card reveal" data-delay="500">
+              <i class="fa-solid fa-location-dot card-icon"></i>
+              <h3>Based in</h3>
+              <p>Bengaluru, Karnataka<br />India</p>
+            </div>
           </div>
         </div>
-        <div class="skill-bar-container">
-          <div class="skill-name">
-            <span>Cyber Security Internship</span>
-            <span>Ashtaksha Pvt Ltd</span>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skills" class="section">
+      <div class="container">
+        <p class="section-kicker reveal">02 · Skills</p>
+        <h2 class="section-title reveal" data-delay="100">A toolkit for <span class="gradient-text">building &amp; testing</span> software</h2>
+        <div class="bento skills-bento">
+          <div class="bento-card reveal" data-delay="150">
+            <div class="bento-head">
+              <i class="fa-solid fa-code"></i>
+              <h3>Software Engineering</h3>
+            </div>
+            <div class="tags">
+              <span>Java</span><span>Spring Boot</span><span>REST APIs</span>
+              <span>JDBC</span><span>Servlets</span><span>Hibernate</span>
+              <span>React.js</span><span>JavaScript</span><span>HTML5</span>
+              <span>CSS3</span><span>MySQL</span><span>Git</span>
+              <span>OOP</span><span>Data Structures &amp; Algorithms</span>
+              <span>SDLC</span><span>Agile</span>
+            </div>
           </div>
-          <div class="skill-bar">
-            <div class="skill-progress" data-width="85"></div>
+          <div class="bento-card reveal" data-delay="250">
+            <div class="bento-head">
+              <i class="fa-solid fa-chart-line"></i>
+              <h3>Data Analytics</h3>
+            </div>
+            <div class="tags">
+              <span>SQL</span><span>Python</span>
+              <span>Pandas</span><span>NumPy</span>
+              <span>Scikit-learn</span><span>Data Preprocessing</span>
+              <span>Statistics Fundamentals</span><span>MySQL</span>
+              <span>Query Optimization</span><span>Streamlit</span>
+              <span>Relational Database Design</span><span>DBMS</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects" class="section">
+      <div class="container">
+        <p class="section-kicker reveal">03 · Projects</p>
+        <h2 class="section-title reveal" data-delay="100">Things I've <span class="gradient-text">built &amp; shipped</span></h2>
+        <div class="bento projects-bento">
+          <article class="project-card bento-featured reveal" data-delay="150">
+            <div class="project-top">
+              <i class="fa-solid fa-robot project-icon"></i>
+              <a class="project-link" href="https://github.com/ArfanOrewa" target="_blank" rel="noopener" aria-label="View Jarvis on GitHub">
+                <i class="fa-brands fa-github"></i><i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <h3>Jarvis — Personal AI Voice Assistant</h3>
+            <p>LLM-powered PC assistant with tool/function calling, long-term memory, and voice mode. Runs commands, manages files, searches the web, and holds spoken conversations.</p>
+            <div class="tags tags-sm">
+              <span>Python</span><span>OpenRouter</span><span>faster-whisper</span><span>pyttsx3</span>
+            </div>
+          </article>
 
-  <section id="contact">
-    <h2 class="section-title fade-in-up">Let's Connect</h2>
-    <div class="contact-container">
-      <div class="contact-card fade-in-left delay-1">
-        <p style="font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-light);">
-          I'm actively seeking opportunities as a Software Developer. Feel free to reach out for collaborations, job
-          opportunities, or just to connect!
-        </p>
+          <article class="project-card reveal" data-delay="200">
+            <div class="project-top">
+              <i class="fa-solid fa-eye project-icon"></i>
+              <a class="project-link" href="https://github.com/ArfanOrewa/Object-Detection-System" target="_blank" rel="noopener" aria-label="View Object Detection System on GitHub">
+                <i class="fa-brands fa-github"></i><i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <h3>Object Detection System</h3>
+            <p>100% offline YOLOv8 real-time detection that speaks object names with position and distance announcements, plus scene description and OCR text reading for the visually impaired.</p>
+            <div class="tags tags-sm">
+              <span>Python</span><span>YOLOv8</span><span>OpenCV</span><span>EasyOCR</span><span>pyttsx3</span>
+            </div>
+          </article>
 
-        <div class="contact-detail">
-          <div class="contact-icon">
-            <i class="fas fa-envelope"></i>
+          <article class="project-card reveal" data-delay="250">
+            <div class="project-top">
+              <i class="fa-solid fa-traffic-light project-icon"></i>
+              <a class="project-link" href="https://github.com/ArfanOrewa/Traffic-Prediction-System" target="_blank" rel="noopener" aria-label="View Traffic Prediction System on GitHub">
+                <i class="fa-brands fa-github"></i><i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <h3>Intelligent Traffic Management</h3>
+            <p>Congestion prediction with Random Forest (0.9962 accuracy) plus Dijkstra-based optimal routing, served through an interactive Streamlit dashboard.</p>
+            <div class="tags tags-sm">
+              <span>Python</span><span>Scikit-learn</span><span>Streamlit</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="300">
+            <div class="project-top">
+              <i class="fa-solid fa-chart-line project-icon"></i>
+              <a class="project-link" href="https://github.com/ArfanOrewa/ecommerce-sales-analytics-dashboard" target="_blank" rel="noopener" aria-label="View E-commerce Dashboard on GitHub">
+                <i class="fa-brands fa-github"></i><i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <h3>E-commerce Sales Analytics</h3>
+            <p>Revenue ($710K) and AOV analysis over 5,000 orders — complex SQL aggregations and an interactive Streamlit dashboard with segment filters.</p>
+            <div class="tags tags-sm">
+              <span>Python</span><span>Pandas</span><span>MySQL</span><span>Streamlit</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="350">
+            <div class="project-top">
+              <i class="fa-solid fa-user-xmark project-icon"></i>
+              <a class="project-link" href="https://github.com/ArfanOrewa/customer-churn-analysis" target="_blank" rel="noopener" aria-label="View Customer Churn Analysis on GitHub">
+                <i class="fa-brands fa-github"></i><i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <h3>Customer Churn Analysis</h3>
+            <p>Telecom churn prediction with logistic regression and random forest, evaluated on precision/recall, surfacing the key churn drivers for stakeholders.</p>
+            <div class="tags tags-sm">
+              <span>Python</span><span>Scikit-learn</span><span>Pandas</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="400">
+            <div class="project-top">
+              <i class="fa-solid fa-clapperboard project-icon"></i>
+              <a class="project-link" href="https://github.com/ArfanOrewa" target="_blank" rel="noopener" aria-label="View Reel Script Generator on GitHub">
+                <i class="fa-brands fa-github"></i><i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <h3>Reel Script Generator</h3>
+            <p>AI tool that writes shoot-ready Instagram Reels scripts — hooks, timed scenes, captions, and hashtags — from a single topic via LLM.</p>
+            <div class="tags tags-sm">
+              <span>Python</span><span>Streamlit</span><span>OpenRouter</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="section">
+      <div class="container">
+        <p class="section-kicker reveal">04 · Experience</p>
+        <h2 class="section-title reveal" data-delay="100">Where I've <span class="gradient-text">worked &amp; trained</span></h2>
+        <div class="timeline">
+          <div class="timeline-item reveal" data-delay="150">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card glass-card">
+              <div class="timeline-head">
+                <h3>Java Full Stack Developer Intern</h3>
+                <span class="timeline-date">Jan 2025 – Dec 2025</span>
+              </div>
+              <p class="timeline-org">Robowaves · Bengaluru</p>
+              <p>Built end-to-end web applications with Core Java, JDBC, Servlets, HTML/CSS/JavaScript, and MySQL. Performed CRUD operations and query optimization, applied OOP principles, followed SDLC and Agile practices, and participated in code reviews.</p>
+            </div>
           </div>
-          <div class="contact-text">
+          <div class="timeline-item reveal" data-delay="250">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card glass-card">
+              <div class="timeline-head">
+                <h3>Full Stack Development Training</h3>
+                <span class="timeline-date">Bengaluru</span>
+              </div>
+              <p class="timeline-org">JSpiders</p>
+              <p>Hands-on training in Java, web technologies, SQL, and full-stack development, building complete full-stack applications during the program.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" data-delay="350">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card glass-card">
+              <div class="timeline-head">
+                <h3>Cyber Security Intern</h3>
+                <span class="timeline-date">Cert. ALRTA-I-CS-005</span>
+              </div>
+              <p class="timeline-org">Ashtaksha Pvt Ltd</p>
+              <p>Cybersecurity fundamentals: secure coding practices and authentication &amp; authorization concepts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section id="education" class="section">
+      <div class="container">
+        <p class="section-kicker reveal">05 · Education</p>
+        <h2 class="section-title reveal" data-delay="100">Academic <span class="gradient-text">foundation</span></h2>
+        <div class="edu-grid">
+          <div class="glass-card edu-card reveal" data-delay="150">
+            <i class="fa-solid fa-graduation-cap card-icon"></i>
+            <h3>B.E. Computer Science &amp; Engineering</h3>
+            <p class="edu-org">Sri Siddhartha Institute of Technology (VTU)</p>
+            <div class="edu-meta">
+              <span><i class="fa-regular fa-calendar"></i> 2021 – 2025</span>
+              <span><i class="fa-solid fa-star"></i> CGPA 7.12</span>
+            </div>
+          </div>
+          <div class="glass-card edu-card reveal" data-delay="250">
+            <i class="fa-solid fa-school card-icon"></i>
+            <h3>12th Standard</h3>
+            <p class="edu-org">Sarvodaya Higher Secondary School</p>
+            <div class="edu-meta">
+              <span><i class="fa-regular fa-calendar"></i> 2018 – 2020</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section">
+      <div class="container">
+        <p class="section-kicker reveal">06 · Contact</p>
+        <h2 class="section-title reveal" data-delay="100">Let's build something <span class="gradient-text">intelligent</span></h2>
+        <p class="contact-sub reveal" data-delay="150">I'm currently exploring entry-level software engineering and data analytics roles. My inbox is always open.</p>
+        <div class="contact-grid">
+          <a class="glass-card contact-card reveal magnetic" data-delay="200" href="mailto:ahmedarfan111@gmail.com">
+            <i class="fa-solid fa-envelope card-icon"></i>
             <h3>Email</h3>
             <p>ahmedarfan111@gmail.com</p>
-          </div>
-        </div>
-
-        <div class="contact-detail">
-          <div class="contact-icon">
-            <i class="fas fa-phone"></i>
-          </div>
-          <div class="contact-text">
+          </a>
+          <a class="glass-card contact-card reveal magnetic" data-delay="300" href="tel:+917019024007">
+            <i class="fa-solid fa-phone card-icon"></i>
             <h3>Phone</h3>
             <p>+91 7019024007</p>
-          </div>
-        </div>
-
-        <div class="contact-detail">
-          <div class="contact-icon">
-            <i class="fas fa-map-marker-alt"></i>
-          </div>
-          <div class="contact-text">
+          </a>
+          <div class="glass-card contact-card reveal" data-delay="400">
+            <i class="fa-solid fa-location-dot card-icon"></i>
             <h3>Location</h3>
             <p>Bengaluru, Karnataka, India</p>
           </div>
         </div>
-
-        <div class="social-links">
-          <a href="https://github.com/ArfanOrewa" target="_blank" class="social-link">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/ahmed-arfan" target="_blank" class="social-link">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="mailto:ahmedarfan111@gmail.com" class="social-link">
-            <i class="fas fa-envelope"></i>
-          </a>
+        <div class="contact-socials reveal" data-delay="500">
+          <a href="https://github.com/ArfanOrewa" target="_blank" rel="noopener" class="btn btn-ghost magnetic"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/ahmed-arfan" target="_blank" rel="noopener" class="btn btn-ghost magnetic"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
         </div>
       </div>
-
-      <div class="contact-card fade-in-right delay-2">
-        <h3 style="color: var(--text-dark); margin-bottom: 1.5rem; font-size: 1.8rem;">Why Hire Me?</h3>
-        <ul style="list-style: none; line-height: 1.8;">
-          <li
-            style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
-            <i class="fas fa-check-circle" style="color: #06b6d4; margin-top: 0.3rem;"></i>
-            <span><strong>Strong Foundation</strong>: Solid understanding of CS fundamentals and modern development
-              practices</span>
-          </li>
-          <li
-            style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
-            <i class="fas fa-check-circle" style="color: #06b6d4; margin-top: 0.3rem;"></i>
-            <span><strong>Quick Learner</strong>: Adaptable and eager to learn new technologies and frameworks</span>
-          </li>
-          <li
-            style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
-            <i class="fas fa-check-circle" style="color: #06b6d4; margin-top: 0.3rem;"></i>
-            <span><strong>Project Experience</strong>: Hands-on experience building full-stack applications and ML
-              solutions</span>
-          </li>
-          <li
-            style="margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px;">
-            <i class="fas fa-check-circle" style="color: #06b6d4; margin-top: 0.3rem;"></i>
-            <span><strong>Problem Solver</strong>: Strong analytical skills with focus on efficient, scalable
-              solutions</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
+    </section>
+  </main>
 
   <footer>
-    <div class="footer-content">
-      <div class="footer-logo">Arfan Ahmed Khan</div>
-      <p style="color: #cbd5e1; margin-bottom: 1.5rem;">Computer Science Engineering Graduate | Software Developer</p>
-
-      <div class="footer-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#education">Education</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <div class="social-links" style="justify-content: center; margin: 2rem 0;">
-        <a href="https://github.com/ArfanOrewa" target="_blank" class="social-link">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/ahmed-arfan" target="_blank" class="social-link">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="mailto:ahmedarfan111@gmail.com" class="social-link">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </div>
-
-      <p class="copyright">©️ 2024 Arfan Ahmed Khan. All rights reserved.</p>
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> Arfan Ahmed Khan. Designed &amp; built from scratch.</p>
+      <a href="#home" class="back-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="./index.js"></script>
-
+  <script src="index.js"></script>
 </body>
-
 </html>
